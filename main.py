@@ -39,17 +39,20 @@ class backend:
     @staticmethod
     def right():
         backend.mem_index += 1
-        if backend.mem_index >= 33000:
+        if backend.mem_index >= 32999:
             backend.mem_index = 0
 
     @staticmethod
     def left():
         backend.mem_index -= 1
         if backend.mem_index <= 0:
-            backend.mem_index = 33000
+            backend.mem_index = 32999
 
     @staticmethod
     def output_char():
+        print(backend.mem_array)
+        print(backend.mem_index)
+
         backend.output_result += backend.ascii_table[backend.mem_array[backend.mem_index]]
 
 
@@ -81,35 +84,30 @@ class backend:
         backend.arg_curr = backend.arg[0] if backend.arg else None
 
         while backend.code_index < len(backend.code):
-            try:
-                command = backend.code[backend.code_index]
+            command = backend.code[backend.code_index]
 
-                if command in backend.func_map:
-                    backend.func_map[command]()
-                elif command == "[":
-                    if backend.mem_array[backend.mem_index] == 0:
-                        loop_start = backend.code_index
-                        depth = 1
-                        while depth > 0:
-                            backend.code_index += 1
-                            if backend.code[backend.code_index] == "[":
-                                depth += 1
-                            elif backend.code[backend.code_index] == "]":
-                                depth -= 1
-                    else:
-                        backend.loop_stack.append(backend.code_index)
-                elif command == "]":
-                    if backend.mem_array[backend.mem_index] != 0:
-                        backend.code_index = backend.loop_stack[-1]
-                    else:
-                        backend.loop_stack.pop()
+            if command in backend.func_map:
+                backend.func_map[command]()
+            elif command == "[":
+                if backend.mem_array[backend.mem_index] == 0:
+                    loop_start = backend.code_index
+                    depth = 1
+                    while depth > 0:
+                        backend.code_index += 1
+                        if backend.code[backend.code_index] == "[":
+                            depth += 1
+                        elif backend.code[backend.code_index] == "]":
+                            depth -= 1
                 else:
-                    pass
-                backend.code_index += 1
-
-            except Exception as error:
-                print(error)
-                break
+                    backend.loop_stack.append(backend.code_index)
+            elif command == "]":
+                if backend.mem_array[backend.mem_index] != 0:
+                    backend.code_index = backend.loop_stack[-1]
+                else:
+                    backend.loop_stack.pop()
+            else:
+                pass
+            backend.code_index += 1
 
 
 class Ui_MainWindow(object):
