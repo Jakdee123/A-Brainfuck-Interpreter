@@ -15,12 +15,11 @@ class backend:
     arg_curr = arg[arg_index] if arg else None  # Check if arg is not empty
     first_arg_read = True
     code = ""  # Brainfuck code should be placed here
-    code_index = 1
+    code_index = 0
     output_result = ""  # Renamed to avoid conflict with the output function
     arg_err = False
     need_arg = False
     invalid_char_found = False
-    nah = 0
     command = 0
 
     @staticmethod
@@ -231,16 +230,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.need_arg = False
         self.invalid_arg_char = False
         self.err_code = None
+        self.finde = 0
 
         backend.code = self.code_text
         backend.arg = self.arg_text
 
-        try:
-            self.errindex = backend.code.find(",")
+
+        self.finde = backend.code.find(",")
+        if self.finde != -1:
             self.need_arg = True
-        except ValueError as error:
+        else:
             self.need_arg = False
-            print(error)
 
 
         if self.need_arg and not self.arg_text:
