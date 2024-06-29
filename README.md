@@ -5,7 +5,7 @@ Something Something
 COMING SOON!
 .
 .
-.
+Taking a break for a while. Lots of errors. If someone wants to help contact me on discord at @blackdoe846
 .
 .
 .
